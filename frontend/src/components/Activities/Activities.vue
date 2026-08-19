@@ -376,12 +376,13 @@
       </template>
     </div>
     <div v-else-if="title == 'Data'" class="h-full flex flex-col px-3 sm:px-10">
-      <DataFields
-        :doctype="doctype"
-        :docname="docname"
-        @beforeSave="(data) => emit('beforeSave', data)"
-        @afterSave="(data) => emit('afterSave', data)"
-      />
+     <DataFields
+      :doctype="doctype"
+      :docname="docname"
+      :readOnly="readOnly"
+      @beforeSave="(data) => emit('beforeSave', data)"
+      @afterSave="(data) => emit('afterSave', data)"
+    />
     </div>
     <EmptyState
       v-else
@@ -496,11 +497,11 @@ const { $socket } = globalStore()
 const { getUser } = usersStore()
 const { capture } = useTelemetry()
 const { isNewestFirst } = useTimelinePreferences()
-
 const props = defineProps({
   doctype: { type: String, default: 'CRM Lead' },
   docname: { type: String, default: '' },
   tabs: { type: Array, default: () => [] },
+  readOnly: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['beforeSave', 'afterSave'])

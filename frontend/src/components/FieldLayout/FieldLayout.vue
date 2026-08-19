@@ -53,7 +53,7 @@ const resolvedDocname = computed(() => props.docname || props.data?.name || '')
 let overrides = {}
 if (props.context) {
   // Standalone mode: use externally managed context, skip useDocument
-  overrides = computed(() => props.context?.fieldPropertyOverrides || {})
+  overrides = computed(() => props.context?.document?.fieldPropertyOverrides || {})
 } else if (!props.isGridRow) {
   const { document: doc } = useDocument(props.doctype, resolvedDocname.value)
   overrides = computed(() => doc?.fieldPropertyOverrides || {})
@@ -86,17 +86,24 @@ const hasTabs = computed(() => {
     (processedTabs.value.length == 1 && processedTabs.value[0].label)
   )
 })
+const formData = computed({
+  get() {
+    return props.data
+  },
+  set(value) {
+    Object.assign(props.data, value)
+  },
+})
 
-provide(
-  'data',
-  computed(() => props.data),
-)
+provide('data', formData)
+// provide('data', props.data)
 provide('hasTabs', hasTabs)
 provide('doctype', props.doctype)
 provide('docname', resolvedDocname)
 provide('preview', props.preview)
 provide('isGridRow', props.isGridRow)
 provide('fieldLayoutContext', props.context)
+
 </script>
 <style scoped>
 .section:not(:has(.field)) {
