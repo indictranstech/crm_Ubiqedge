@@ -11,21 +11,21 @@
         theme="orange"
       />
     </div>
-    <div class="flex gap-1">
-      <Button
-        v-if="isManager() && !isMobileView"
-        :tooltip="__('Edit Fields Layout')"
-        :icon="EditIcon"
-        @click="showDataFieldsModal = true"
-      />
-      <Button
-        label="Save"
-        :disabled="!document.isDirty"
-        variant="solid"
-        :loading="document.save.loading"
-        @click="saveChanges"
-      />
-    </div>
+   <div class="flex gap-1">
+    <Button
+      v-if="isManager() && !isMobileView && !readOnly"
+      :tooltip="__('Edit Fields Layout')"
+      :icon="EditIcon"
+      @click="showDataFieldsModal = true"
+    />
+    <Button
+      label="Save"
+      :disabled="!document.isDirty || readOnly"
+      variant="solid"
+      :loading="document.save.loading"
+      @click="saveChanges"
+    />
+</div>
   </div>
   <div
     v-if="document.get.loading"
@@ -35,13 +35,18 @@
     <span>{{ __('Loading...') }}</span>
   </div>
   <div v-else class="pb-8">
-    <FieldLayout
-      v-if="tabs.data"
-      :tabs="tabs.data"
-      :data="document.doc"
-      :doctype="doctype"
-    />
-  </div>
+    <div
+      :class="{ 'pointer-events-none opacity-60 select-none': readOnly }"
+      :inert="readOnly"
+    >
+      <FieldLayout
+        v-if="tabs.data"
+        :tabs="tabs.data"
+        :data="document.doc"
+        :doctype="doctype"
+      />
+    </div>
+</div>
   <DataFieldsModal
     v-if="showDataFieldsModal"
     v-model="showDataFieldsModal"
@@ -69,6 +74,7 @@ import { ref, watch, getCurrentInstance } from 'vue'
 const props = defineProps({
   doctype: { type: String, required: true },
   docname: { type: String, required: true },
+  readOnly: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['beforeSave', 'afterSave'])

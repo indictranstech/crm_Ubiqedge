@@ -185,6 +185,7 @@ import Icon from '@/components/Icon.vue'
 import PinIcon from '@/components/Icons/PinIcon.vue'
 import UserDropdown from '@/components/UserDropdown.vue'
 import SquareAsterisk from '@/components/Icons/SquareAsterisk.vue'
+import EnquiriesIcon from '@/components/Icons/EnquiriesIcon.vue'
 import LeadsIcon from '@/components/Icons/LeadsIcon.vue'
 import DealsIcon from '@/components/Icons/DealsIcon.vue'
 import ContactsIcon from '@/components/Icons/ContactsIcon.vue'
@@ -256,6 +257,11 @@ const links = [
     icon: LucideLayoutDashboard,
     to: 'Dashboard',
     condition: () => !props.mobile,
+  },
+   {
+    label: 'Enquiries',
+    icon: EnquiriesIcon,
+    to: 'Enquiries',
   },
   {
     label: 'Leads',
@@ -356,6 +362,8 @@ function getIcon(routeName, icon) {
       return LeadsIcon
     case 'Deals':
       return DealsIcon
+    case 'Enquiries':
+      return EnquiriesIcon
     case 'Contacts':
       return ContactsIcon
     case 'Organizations':

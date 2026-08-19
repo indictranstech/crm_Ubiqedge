@@ -61,6 +61,18 @@ const routes = [
     props: true,
   },
   {
+    alias: '/enquiries',
+    path: '/enquiries/view/:viewType?',
+    name: 'Enquiries',
+    component: () => import('@/pages/Enquiries.vue'),
+  },
+  {
+    path: '/enquiries/:enquiryId',
+    name: 'Enquiry',
+    component: () => import(`@/pages/${handleMobileView('Enquiry')}.vue`),
+    props: true,
+  },
+  {
     alias: '/notes',
     path: '/notes/view/:viewType?',
     name: 'Notes',
@@ -236,6 +248,7 @@ router.beforeEach(async (to, from, next) => {
       'Notes',
       'Tasks',
       'Call Logs',
+      'Enquiries',
     ].includes(to.name) &&
     !to.query?.view
   ) {
@@ -254,6 +267,7 @@ router.beforeEach(async (to, from, next) => {
         Notes: 'FCRM Note',
         Tasks: 'CRM Task',
         'Call Logs': 'CRM Call Log',
+        Enquiries: 'Enquiry Form',
       }
 
       const doctype = doctypeMap[to.name]
