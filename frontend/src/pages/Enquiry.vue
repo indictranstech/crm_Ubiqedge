@@ -63,11 +63,11 @@
   @click="convertToLead"
 />
 <Button
-  v-if="doc.converted_lead"
-  :label="__('Go To Lead')"
+  v-if="doc.converted_deal && !doc.converted_lead"
+  :label="__('Go To Deal')"
   variant="subtle"
   class="!bg-orange-500 !text-white hover:!bg-orange-600"
-  @click="router.push({ name: 'Lead', params: { leadId: doc.converted_lead } })"
+  @click="router.push({ name: 'Deal', params: { dealId: doc.converted_deal } })"
 />
     </template>
   </LayoutHeader>
@@ -399,6 +399,7 @@ const enquiryStatusColor = {
   DisQualified: 'text-red-600',
 }
 
+
 function statusColor(status) {
   return enquiryStatusColor[status] || 'text-gray-600'
 }
@@ -439,6 +440,7 @@ const showConvertToDeal = computed(() => {
 const showConvertToLead = computed(() => {
   return (
     !doc.value.converted_lead &&
+    !doc.value.converted_deal &&
     doc.value.enquirer_type === 'New Prospect' &&
     doc.value.workflow_state === 'Qualified'
   )
