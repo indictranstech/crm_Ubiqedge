@@ -39,7 +39,7 @@
   {{ statusLabel(doc.workflow_state) }}
 </Badge>
 
-      <Button
+<Button
   v-if="showConvertToDeal"
   :label="__('Convert To Deal')"
   variant="solid"
@@ -63,11 +63,11 @@
   @click="convertToLead"
 />
 <Button
-  v-if="doc.converted_deal && !doc.converted_lead"
-  :label="__('Go To Deal')"
+  v-if="doc.converted_lead"
+  :label="__('Go To Lead')"
   variant="subtle"
   class="!bg-orange-500 !text-white hover:!bg-orange-600"
-  @click="router.push({ name: 'Deal', params: { dealId: doc.converted_deal } })"
+  @click="router.push({ name: 'Lead', params: { leadId: doc.converted_lead } })"
 />
     </template>
   </LayoutHeader>
