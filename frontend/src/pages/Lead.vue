@@ -207,6 +207,7 @@
     v-if="showConvertToDealModal"
     v-model="showConvertToDealModal"
     :lead="doc"
+    @success="document.reload()"
   />
   <FilesUploader
     v-model="showFilesUploader"
@@ -331,7 +332,11 @@ useUnsavedChangesWarning(() => document.isDirty)
 onMounted(async () => {
   if (document.doc) await triggerOnRender()
 })
-
+watch(showConvertToDealModal, (isOpen, wasOpen) => {
+  if (wasOpen && !isOpen) {
+    document.reload()
+  }
+})
 watch(error, (err) => {
   if (err) {
     errorTitle.value = __(
